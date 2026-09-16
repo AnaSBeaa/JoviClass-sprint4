@@ -12,12 +12,13 @@ import yasmin from "../assets/images/yasmin.png";
 function Pagina() {
     const [menuOpen, setMenuOpen] = useState(false);
     const [formStatus, setFormStatus] = useState("");
+    const [enviando, setEnviando] = useState(false);
 
     const closeMenu = () => {
         setMenuOpen(false);
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
         const form = event.currentTarget;
@@ -27,8 +28,35 @@ function Pagina() {
             return;
         }
 
-        setFormStatus("Mensagem enviada com sucesso!");
-        form.reset();
+        const dados = {
+            nome: form.nome.value,
+            email: form.email.value,
+            mensagem: form.mensagem.value,
+            data: new Date().toISOString(),
+        };
+
+        setEnviando(true);
+        setFormStatus("");
+
+        try {
+            const response = await fetch("https://6aaaebc1ff4dd5698b4f2a7a.mockapi.io/contatos", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(dados),
+            });
+
+            if (!response.ok) {
+                throw new Error("Erro ao enviar mensagem");
+            }
+
+            setFormStatus("Mensagem enviada com sucesso!");
+            form.reset();
+        } catch (error) {
+            console.error("Erro ao enviar contato:", error);
+            setFormStatus("Ocorreu um erro ao enviar sua mensagem. Tente novamente.");
+        } finally {
+            setEnviando(false);
+        }
     };
 
     const gradientText =
@@ -658,16 +686,23 @@ function Pagina() {
                                 />
 
                                 {formStatus && (
-                                    <p className="m-0 mt-2 px-4 py-3 rounded-xl border-2 border-[#40916c] bg-[#2d6a4f] font-['Outfit'] text-sm font-semibold text-white">
+                                    <p
+                                        className={`m-0 mt-2 px-4 py-3 rounded-xl border-2 font-['Outfit'] text-sm font-semibold text-white ${
+                                            formStatus.includes("sucesso")
+                                                ? "border-[#40916c] bg-[#2d6a4f]"
+                                                : "border-[#a83232] bg-[#6a2d2d]"
+                                        }`}
+                                    >
                                         {formStatus}
                                     </p>
                                 )}
 
                                 <button
                                     type="submit"
-                                    className="mt-4 self-start max-md:self-stretch max-md:w-full px-8 py-[14px] rounded-[40px] border-0 bg-[#9A48FF] font-['Outfit'] text-base font-bold text-white cursor-pointer transition-colors duration-300 hover:bg-[#C99DFF]"
+                                    disabled={enviando}
+                                    className="mt-4 self-start max-md:self-stretch max-md:w-full px-8 py-[14px] rounded-[40px] border-0 bg-[#9A48FF] font-['Outfit'] text-base font-bold text-white cursor-pointer transition-colors duration-300 hover:bg-[#C99DFF] disabled:opacity-60 disabled:cursor-not-allowed"
                                 >
-                                    Enviar mensagem
+                                    {enviando ? "Enviando..." : "Enviar mensagem"}
                                 </button>
 
                             </form>
@@ -681,4 +716,3 @@ function Pagina() {
 }
 
 export default Pagina;
-
