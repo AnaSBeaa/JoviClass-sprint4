@@ -98,7 +98,9 @@ Entre os recursos responsivos estão:
 * Organização das seções para diferentes resoluções;
 * Utilização das classes responsivas do Tailwind CSS.
 
+## Uso de Ferramentas de IA
 
+Este projeto contou com o auxílio de ferramentas de inteligência artificial (ChatGPT, Gemini) como recurso de aprendizado para a conversão de estilos CSS para Tailwind CSS. Todo o código foi compreendido, testado e validado manualmente.
 
 ## Equipe
 
