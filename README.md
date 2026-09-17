@@ -6,6 +6,7 @@ Este projeto foi desenvolvido como parte de um projeto acadêmico.
 
 ## Deploy no Vercel
 
+ **Link da aplicação:** 
 
 ## Funcionalidades
 
@@ -86,6 +87,31 @@ http://localhost:5173
 
 > A porta pode variar caso a porta padrão já esteja sendo utilizada por outro processo.
 
+## Back-end / API utilizada
+
+Este projeto **não possui back-end próprio**. Por isso, não há servidor adicional para executar — basta rodar `npm run dev` conforme a seção anterior.
+
+O formulário de contato (seção "Contato" da página inicial) consome uma **API mockada** criada no [MockAPI](https://mockapi.io), que armazena as mensagens enviadas:
+
+```text
+https://6aaaebc1ff4dd5698b4f2a7a.mockapi.io/contatos
+```
+
+## Usuários e senha para teste
+
+A aplicação possui autenticação simulada (mock), usada para liberar o acesso à rota privada `/dashboard` (Área do Aluno).
+
+| Campo   | Valor                    |
+| ------- | ------------------------ |
+| E-mail  | `aluno@joviclass.com`    |
+| Senha   | `joviclass123`           |
+
+Para testar:
+
+1. Clique em **"Área do aluno"** no menu de navegação;
+2. Informe o e-mail e a senha acima na tela de login;
+3. Você será redirecionado para o **Dashboard**, uma rota privada só acessível a usuários autenticados.
+
 ## Responsividade
 
 A interface foi desenvolvida para se adaptar a diferentes tamanhos de tela.
@@ -100,7 +126,11 @@ Entre os recursos responsivos estão:
 
 ## Uso de Ferramentas de IA
 
-Este projeto contou com o auxílio de ferramentas de inteligência artificial (ChatGPT, Gemini) como recurso de aprendizado para a conversão de estilos CSS para Tailwind CSS. Todo o código foi compreendido, testado e validado manualmente.
+Este projeto contou com o auxílio de ferramentas de inteligência artificial como recurso de aprendizado e apoio técnico:
+
+* **ChatGPT e Gemini** foram utilizados como recurso de aprendizado para a conversão de estilos CSS para Tailwind CSS.
+
+Todo o código gerado ou sugerido pelas ferramentas de IA foi lido, compreendido, testado e validado manualmente pela equipe antes de ser incorporado ao projeto.
 
 ## Equipe
 

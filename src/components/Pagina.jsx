@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import logo from "../assets/images/logojoviclass.png";
 import telaInicial from "../assets/images/telainicial.png";
 import info from "../assets/images/info.png";
@@ -8,202 +6,17 @@ import horarios from "../assets/images/horarios.png";
 import ana from "../assets/images/ana.png";
 import paloma from "../assets/images/paloma.png";
 import yasmin from "../assets/images/yasmin.png";
+import TeamMember from "./TeamMember";
+import { useContato } from "../hooks/useContato";
 
 function Pagina() {
-    const [menuOpen, setMenuOpen] = useState(false);
-    const [formStatus, setFormStatus] = useState("");
-    const [enviando, setEnviando] = useState(false);
-
-    const closeMenu = () => {
-        setMenuOpen(false);
-    };
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-
-        const form = event.currentTarget;
-
-        if (!form.checkValidity()) {
-            form.reportValidity();
-            return;
-        }
-
-        const dados = {
-            nome: form.nome.value,
-            email: form.email.value,
-            mensagem: form.mensagem.value,
-            data: new Date().toISOString(),
-        };
-
-        setEnviando(true);
-        setFormStatus("");
-
-        try {
-            const response = await fetch("https://6aaaebc1ff4dd5698b4f2a7a.mockapi.io/contatos", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(dados),
-            });
-
-            if (!response.ok) {
-                throw new Error("Erro ao enviar mensagem");
-            }
-
-            setFormStatus("Mensagem enviada com sucesso!");
-            form.reset();
-        } catch (error) {
-            console.error("Erro ao enviar contato:", error);
-            setFormStatus("Ocorreu um erro ao enviar sua mensagem. Tente novamente.");
-        } finally {
-            setEnviando(false);
-        }
-    };
+    const { formStatus, enviando, handleSubmit } = useContato();
 
     const gradientText =
         "bg-gradient-to-r from-[#DDC4FB] to-[#81D8E5] bg-clip-text text-transparent";
 
     return (
         <div className="min-h-screen overflow-x-hidden bg-[#0d0221] text-white bg-[radial-gradient(600px_circle_at_15%_8%,rgba(154,72,255,0.28),transparent_60%),radial-gradient(700px_circle_at_85%_5%,rgba(129,216,229,0.16),transparent_60%),radial-gradient(800px_circle_at_50%_40%,rgba(154,72,255,0.22),transparent_60%),radial-gradient(500px_circle_at_90%_30%,rgba(129,216,229,0.14),transparent_60%),radial-gradient(450px_circle_at_8%_35%,rgba(154,72,255,0.20),transparent_60%),radial-gradient(400px_circle_at_60%_15%,rgba(221,196,251,0.12),transparent_60%),radial-gradient(400px_circle_at_60%_70%,rgba(221,196,251,0.12),transparent_60%),radial-gradient(400px_circle_at_40%_90%,rgba(221,196,251,0.12),transparent_60%)]">
-
-            {/* =====================================================
-                HEADER / NAVBAR
-            ====================================================== */}
-
-            <header className="sticky top-2 z-[100] w-[calc(100%-32px)] max-w-[1400px] mx-auto mt-5 px-4 py-2 rounded-full">
-                <nav className="relative flex items-center justify-between gap-6 w-full h-16 px-2 rounded-[40px] bg-[rgba(57,2,124,0.6)] backdrop-blur-[16px] overflow-visible">
-
-                    {/* LOGO */}
-                    <a
-                        href="#inicio"
-                        onClick={closeMenu}
-                        className="shrink-0 cursor-pointer no-underline"
-                    >
-                        <img
-                            src={logo}
-                            alt="Logo do JoviClass"
-                            className="h-[70px] w-auto mt-[10px] md:h-[70px] max-md:h-[52px] max-md:mt-[6px]"
-                        />
-                    </a>
-
-                    {/* LINKS */}
-                    <ul
-                        id="nav-links"
-                        className={`
-                            absolute md:static
-                            top-[calc(100%+12px)]
-                            md:top-auto
-                            left-0 right-0
-                            flex flex-col md:flex-row
-                            items-stretch md:items-center
-                            justify-end
-                            gap-1 md:gap-7
-                            m-0
-                            md:ml-auto md:mr-12
-                            p-3 md:p-0
-                            rounded-3xl md:rounded-none
-                            bg-[rgba(57,2,124,0.95)]
-                            md:bg-transparent
-                            backdrop-blur-[16px]
-                            overflow-hidden
-                            z-50
-                            transition-all duration-300
-                            ${
-                                menuOpen
-                                    ? "max-h-[400px] opacity-100 pointer-events-auto"
-                                    : "max-h-0 opacity-0 pointer-events-none"
-                            }
-                            md:max-h-none
-                            md:opacity-100
-                            md:pointer-events-auto
-                        `}
-                    >
-                        {[
-                            ["#solucao", "A Solução"],
-                            ["#publico-alvo", "Público-Alvo"],
-                            ["#galeria", "Galeria"],
-                            ["#equipe", "Nossa Equipe"],
-                            ["#contato", "Contato"],
-                        ].map(([href, label]) => (
-                            <li
-                                key={href}
-                                className="shrink-0"
-                            >
-                                <a
-                                    href={href}
-                                    onClick={closeMenu}
-                                    className="
-                                        block
-                                        w-full
-                                        px-4 py-3
-                                        md:w-auto
-                                        md:p-0
-                                        rounded-xl
-                                        md:rounded-none
-                                        font-['Outfit']
-                                        text-[15px]
-                                        font-extrabold
-                                        text-[#DDC4FB]
-                                        no-underline
-                                        whitespace-nowrap
-                                        transition-colors duration-300
-                                        hover:text-white
-                                        hover:bg-[rgba(154,72,255,0.25)]
-                                        md:hover:bg-transparent
-                                    "
-                                >
-                                    {label}
-                                </a>
-                            </li>
-                        ))}
-                    </ul>
-
-                    {/* BOTÃO MENU MOBILE */}
-                    <button
-                        type="button"
-                        aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
-                        aria-expanded={menuOpen}
-                        aria-controls="nav-links"
-                        onClick={() => setMenuOpen((prev) => !prev)}
-                        className="flex md:hidden flex-col items-center justify-center gap-[5px] w-10 h-10 p-0 bg-transparent border-0 rounded-lg cursor-pointer shrink-0"
-                    >
-                        <span
-                            className={`
-                                block
-                                w-[22px]
-                                h-[2px]
-                                rounded
-                                bg-[#DDC4FB]
-                                transition-all duration-300
-                                ${menuOpen ? "translate-y-[7px] rotate-45" : ""}
-                            `}
-                        />
-
-                        <span
-                            className={`
-                                block
-                                w-[22px]
-                                h-[2px]
-                                rounded
-                                bg-[#DDC4FB]
-                                transition-all duration-300
-                                ${menuOpen ? "opacity-0" : "opacity-100"}
-                            `}
-                        />
-
-                        <span
-                            className={`
-                                block
-                                w-[22px]
-                                h-[2px]
-                                rounded
-                                bg-[#DDC4FB]
-                                transition-all duration-300
-                                ${menuOpen ? "-translate-y-[7px] -rotate-45" : ""}
-                            `}
-                        />
-                    </button>
-                </nav>
-            </header>
 
             <main>
 
@@ -514,26 +327,12 @@ function Pagina() {
                                 [paloma, "Paloma", "Desenvolvedora Back-End"],
                                 [yasmin, "Yasmin", "Desenvolveu toda a documentação do projeto"],
                             ].map(([image, name, role]) => (
-                                <article
+                                <TeamMember
                                     key={name}
-                                    className="flex flex-col items-center text-center"
-                                >
-                                    <div className="w-40 h-40 shrink-0 overflow-hidden rounded-full border-[3px] border-[#9A48FF] bg-[#39027c]">
-                                        <img
-                                            src={image}
-                                            alt={`Foto de ${name}`}
-                                            className="block w-full h-full object-cover bg-[#39027c]"
-                                        />
-                                    </div>
-
-                                    <h2 className="mt-4 mb-2 font-['Outfit'] font-bold text-[22px] text-white">
-                                        {name}
-                                    </h2>
-
-                                    <ul className="m-0 p-0 list-none font-['Outfit'] font-normal text-base leading-[1.5] text-[#DDC4FB]">
-                                        <li>{role}</li>
-                                    </ul>
-                                </article>
+                                    image={image}
+                                    name={name}
+                                    role={role}
+                                />
                             ))}
                         </div>
                     </div>
