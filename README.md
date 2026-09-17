@@ -6,7 +6,7 @@ Este projeto foi desenvolvido como parte de um projeto acadêmico.
 
 ## Deploy no Vercel
 
- **Link da aplicação:** 
+ **Link da aplicação:** https://jovi-class-sprint4.vercel.app
 
 ## Funcionalidades
 
